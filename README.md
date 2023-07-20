@@ -10,6 +10,12 @@ This repo contains an `main.py` file which has a template for a chatbot implemen
 - run: pip install -r requirements.txt
 - streamlit run main.py
 
+
+## deploy to streamlit communit cloud
+- signup https://streamlit.io/cloud
+- create new app that point to your git repo
+- add the key in the setting with the format like .env file
+
 ## Adding your chain
 To add your chain, you need to change the `load_chain` function in `main.py`.
 Depending on the type of your chain, you may also need to change the inputs/outputs that occur later on.

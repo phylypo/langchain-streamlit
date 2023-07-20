@@ -14,7 +14,7 @@ def load_chain():
 
 chain = load_chain()
 
-st.title("Chatbot : LangChain with Streamlit")
+st.title("Chatbot : LangChain with Streamlit Community Cloud")
 
 if "generated" not in st.session_state:
     st.session_state["generated"] = []
