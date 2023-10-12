@@ -1,50 +1,50 @@
-"""Python file to serve as the frontend"""
-import streamlit as st
-from streamlit_chat import message
-from langchain.chains import ConversationChain
+from langchain.chains import LLMChain
 from langchain.llms import OpenAI
-from langchain.chat_models import ChatOpenAI
-from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
-
+from langchain.memory.chat_message_histories import StreamlitChatMessageHistory
+from langchain.prompts import PromptTemplate
+import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
+st.set_page_config(page_title="StreamlitChatMessageHistory", page_icon="📖")
+st.title("📖 StreamlitChatMessageHistory")
 
-def load_chain():
-    """Logic for loading the chain you want to use should go here."""
-    template2 = """The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.
+"""
+A basic example of using StreamlitChatMessageHistory to help LLMChain remember messages in a conversation.
+[source code for this app](https://github.com/langchain-ai/streamlit-agent/blob/main/streamlit_agent/basic_memory.py).
+"""
 
-Current conversation:
+# Set up memory
+msgs = StreamlitChatMessageHistory(key="langchain_messages")
+memory = ConversationBufferMemory(chat_memory=msgs)
+if len(msgs.messages) == 0:
+    msgs.add_ai_message("How can I help you?")
+
+# Get an OpenAI API Key before continuing
+if "openai_api_key" in st.secrets:
+    openai_api_key = st.secrets.openai_api_key
+else:
+    openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+if not openai_api_key:
+    st.info("Enter an OpenAI API Key to continue")
+    st.stop()
+
+# Set up the LLMChain, passing in memory
+template = """You are an AI chatbot having a conversation with a human.
+
 {history}
-Human: {input}
-AI Assistant:"""
-    MY_PROMPT = PromptTemplate(input_variables=["input", "history"], template=template2)
-    llm = ChatOpenAI(temperature=0.0)
-    chain = ConversationChain(llm=llm, prompt=MY_PROMPT, memory=ConversationBufferMemory(ai_prefix="AI Assistant"), verbose=True)
-    return chain
+Human: {human_input}
+AI: """
+prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
+llm_chain = LLMChain(llm=OpenAI(openai_api_key=openai_api_key), prompt=prompt, memory=memory)
 
-chain = load_chain()
+# Render current messages from StreamlitChatMessageHistory
+for msg in msgs.messages:
+    st.chat_message(msg.type).write(msg.content)
 
-st.title("Chatbot : LangChain with Streamlit Community Cloud")
-
-if "generated" not in st.session_state:
-    st.session_state["generated"] = []
-
-if "prompt" not in st.session_state:
-    st.session_state["prompt"] = []
-
-query = st.text_input("Query: ", key="input")
-
-if query:
-    with st.spinner("generating..."):
-        output = chain.run(input=query)
-    print("Output generation: ", output)
-    st.session_state.prompt.append(query)
-    st.session_state.generated.append(output)
-
-if st.session_state["generated"]:
-
-    for i in range(len(st.session_state["generated"]) - 1, -1, -1):
-        print(i, st.session_state["generated"][i], " past:", st.session_state["prompt"][i])
-        message(st.session_state["generated"][i], key=str(i))
-        message(st.session_state["prompt"][i], is_user=True, key=str(i) + "_user")
+# If user inputs a new prompt, generate and draw a new response
+if prompt := st.chat_input():
+    st.chat_message("human").write(prompt)
+    # Note: new messages are saved to history automatically by Langchain during run
+    response = llm_chain.run(prompt)
+    st.chat_message("ai").write(response)
