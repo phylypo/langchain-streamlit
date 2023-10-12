@@ -28,7 +28,7 @@ template = """You are an AI chatbot having a conversation with a human.
 Human: {human_input}
 AI: """
 prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
-llm_chain = LLMChain(llm=OpenAI(openai_api_key=openai_api_key), prompt=prompt, memory=memory)
+llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt, memory=memory)
 
 # Render current messages from StreamlitChatMessageHistory
 for msg in msgs.messages:
