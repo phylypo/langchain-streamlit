@@ -6,6 +6,7 @@ from langchain.prompts import PromptTemplate
 import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
+
 st.set_page_config(page_title="StreamlitChatMessageHistory", page_icon="📖")
 st.title("📖 StreamlitChatMessageHistory")
 
@@ -19,15 +20,6 @@ msgs = StreamlitChatMessageHistory(key="langchain_messages")
 memory = ConversationBufferMemory(chat_memory=msgs)
 if len(msgs.messages) == 0:
     msgs.add_ai_message("How can I help you?")
-
-# Get an OpenAI API Key before continuing
-if "openai_api_key" in st.secrets:
-    openai_api_key = st.secrets.openai_api_key
-else:
-    openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Enter an OpenAI API Key to continue")
-    st.stop()
 
 # Set up the LLMChain, passing in memory
 template = """You are an AI chatbot having a conversation with a human.
