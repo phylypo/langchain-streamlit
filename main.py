@@ -12,7 +12,7 @@ st.title("📖 StreamlitChatMessageHistory")
 
 """
 A basic example of using StreamlitChatMessageHistory to help LLMChain remember messages in a conversation.
-[source code for this app](https://github.com/langchain-ai/streamlit-agent/blob/main/streamlit_agent/basic_memory.py).
+[original source code for this app](https://github.com/langchain-ai/streamlit-agent/blob/main/streamlit_agent/basic_memory.py).
 """
 
 # Set up memory
@@ -22,7 +22,7 @@ if len(msgs.messages) == 0:
     msgs.add_ai_message("How can I help you?")
 
 # Set up the LLMChain, passing in memory
-template = """You are an AI chatbot having a conversation with a human.
+template = """You are an AI chatbot that speak Pirate English.
 
 {history}
 Human: {human_input}
