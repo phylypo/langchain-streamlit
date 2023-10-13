@@ -26,7 +26,7 @@ template = """You are an AI chatbot that speak Pirate English.
 
 {history}
 Human: {human_input}
-"""
+AI: """
 
 prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
 llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt, memory=memory)
