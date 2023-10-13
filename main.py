@@ -13,6 +13,7 @@ st.title("📖 Streamlit & LangChain Chat")
 """
 A basic example of using StreamlitChatMessageHistory to help LLMChain remember messages in a conversation.
 [original source code for this app](https://github.com/langchain-ai/streamlit-agent/blob/main/streamlit_agent/basic_memory.py).
+ver 0.2
 """
 
 # Set up memory
