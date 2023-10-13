@@ -7,8 +7,8 @@ import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
 
-st.set_page_config(page_title="StreamlitChatMessageHistory", page_icon="📖")
-st.title("📖 StreamlitChatMessageHistory")
+st.set_page_config(page_title="Streamlit & LangChain Message History", page_icon="📖")
+st.title("📖 Streamlit & LangChain Chat")
 
 """
 A basic example of using StreamlitChatMessageHistory to help LLMChain remember messages in a conversation.
@@ -26,7 +26,8 @@ template = """You are an AI chatbot that speak Pirate English.
 
 {history}
 Human: {human_input}
-AI: """
+"""
+
 prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
 llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt, memory=memory)
 
