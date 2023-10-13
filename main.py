@@ -29,7 +29,7 @@ Human: {human_input}
 AI: """
 
 prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
-llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt, memory=memory)
+llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt, memory=memory, verbose=True)
 
 # Render current messages from StreamlitChatMessageHistory
 for msg in msgs.messages:
