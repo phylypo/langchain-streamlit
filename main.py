@@ -35,6 +35,7 @@ llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt, memory=memory, ve
 # Render current messages from StreamlitChatMessageHistory
 for msg in msgs.messages:
     st.chat_message(msg.type).write(msg.content)
+    print("test debug. message type:", msg.type)
 
 # If user inputs a new prompt, generate and draw a new response
 if prompt := st.chat_input():
