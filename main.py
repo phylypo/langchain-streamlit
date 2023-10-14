@@ -13,7 +13,7 @@ st.title("📖 Streamlit & LangChain Chat")
 """
 A basic example of using StreamlitChatMessageHistory to help LLMChain remember messages in a conversation.
 [original source code for this app](https://github.com/langchain-ai/streamlit-agent/blob/main/streamlit_agent/basic_memory.py).
-ver 0.2
+ver 0.3
 """
 
 # Set up memory
@@ -35,7 +35,7 @@ llm_chain = LLMChain(llm=OpenAI(temperature=0), prompt=prompt, memory=memory, ve
 # Render current messages from StreamlitChatMessageHistory
 for msg in msgs.messages:
     st.chat_message(msg.type).write(msg.content)
-    print("test debug. message type:", msg.type)
+    print("Debug. message type:", msg.type, " msg:", msg.content)
 
 # If user inputs a new prompt, generate and draw a new response
 if prompt := st.chat_input():
