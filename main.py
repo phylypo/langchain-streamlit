@@ -7,8 +7,8 @@ import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
 
-st.set_page_config(page_title="Streamlit & LangChain Message History", page_icon="📖")
-st.title("📖 Streamlit & LangChain Chat")
+st.set_page_config(page_title="Streamlit & LangChain Chat", page_icon="🦜")
+st.title("Streamlit & LangChain Chat")
 
 """
 A basic example of using StreamlitChatMessageHistory to help LLMChain remember messages in a conversation.
